@@ -37,9 +37,6 @@ posts = [
     
 ]
 
-
-
-
 def list_post(request):
     """List existing posts"""
     #Primero el request, luego el template el otro argumento que recibe es un dict
