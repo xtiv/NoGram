@@ -1,20 +1,25 @@
 """ Posts models"""
 
+# Django
 from django.db import models
 
-class User(models.Model):
-    """ User model """
+# Models
+from django.contrib.auth.models import User
+
+class Post(models.Model):
+    """Post model"""
     
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=30)
+      ## Para relacionar el post con un usuario utilizamos ForeignKey
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    ## Traemos el modelo de otra manera con un string representando la ruta app/modelo
+    profile = models.ForeignKey('users.Profile', on_delete=models.CASCADE)
     
-    bio= models.TextField(blank=True)
-    
-    birthdate = models.DateField(blank=True, null=True)
+    title = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to='post/photos')
     
     created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True) 
+    modified = models.DateTimeField(auto_now=True)
     
+    def __str__(self):
+        return f'{self.title} by @{self.user.username}'
