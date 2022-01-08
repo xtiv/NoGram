@@ -68,7 +68,7 @@ class UserAdmin(BaseUserAdmin):
         'first_name',
         'last_name',
         'is_active',
-        'is_staff'
+        'is_staff',
     )
 
 ## No se registran con decordador, se deregistra el que existia y registrar el nuevo que se edito

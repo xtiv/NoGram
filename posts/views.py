@@ -9,19 +9,19 @@ from datetime import datetime
 
 posts = [
     {
-        'title': 'My Dog.',
+        'title': 'My Dog on my table.',
         'user': {
             'name': 'Steven Gonzalez',
-            'picture': 'https://picsum.photos/id/1023/80/80'
+            'picture': 'https://picsum.photos/id/1023/50/50'
         },
         'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
         'photo': 'https://picsum.photos/id/237/500/500'
     },
     {
-        'title': 'Khe.',
+        'title': 'Simple photo with my iPhone 16 HD8k octa-camera.',
         'user': {
             'name': 'Maria Bohorquez',
-            'picture': 'https://picsum.photos/id/1027/80/80'
+            'picture': 'https://picsum.photos/id/1027/50/50'
         },
         'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
         'photo': 'https://picsum.photos/id/84/500/500'
@@ -29,8 +29,8 @@ posts = [
     {
         'name': 'Natural web',
         'user': {
-            'name':'Karen Prieto',
-            'picture': 'https://picsum.photos/id/1027/60/60'
+            'name':'Hasbull',
+            'picture': 'https://picsum.photos/id/1023/50/50'
         },
         'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
         'photo': 'https://picsum.photos/id/784/500/500'
