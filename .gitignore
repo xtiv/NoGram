@@ -1,5 +1,9 @@
 venv/
 __pycache__/
 media/*
+<<<<<<< HEAD
 static/*
 db.sqlite3
+=======
+static/
+>>>>>>> f959ae1874a00688e0e31631bd1f64b274964ff3
