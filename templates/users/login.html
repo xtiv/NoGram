@@ -1,17 +1,18 @@
 {% extends "users/base.html" %}
 
-{% block head_content %}
-<tittle>PlatziGram sing in</tittle>
-{% endblock%}
 
 {% block container %}
 
-    {% if error %}
-        <p class="alert alert-danger">{{ error }} </p>
+    {% if form.errors %}
+        <p class="alert alert-danger">
+            Your username and password didnt match, please try again.
+        </p>
     {% endif%}
 
+
+
     <!-- Con el tag especial de action, ponemos solo el valor de la propiedad path, es útil cuando se cambia el endpoint -->
-    <form method="POST" action="{% url "login" %}">
+    <form method="POST" action="{% url "users:login" %}">
 
     <!-- El name es el valor que se recibe del lado del servidor el placeholder lo que se muestra -->
         {% csrf_token %}
@@ -22,10 +23,12 @@
 
         <div class="form-group">
             <input class="form-control" type="password" placeholder="Password" name="password">
-        </div>
+        </div>  
 
         <button class="btn btn-primary btn-block mt-5" type="submint">Sign in</button>
 
 
     </form>
+
+    <p class="mt-4">Don't have an account yet? <a href="{% url 'users:signup' %}">Sign up here!</a> </p>
 {% endblock %}

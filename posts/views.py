@@ -1,45 +1,75 @@
 """Post views"""
 
 # Django
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Utilities
 from datetime import datetime
 
-posts = [
-    {
-        'title': 'My Dog on my table.',
-        'user': {
-            'name': 'Steven Gonzalez',
-            'picture': 'https://picsum.photos/id/1023/50/50'
-        },
-        'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
-        'photo': 'https://picsum.photos/id/237/500/500'
-    },
-    {
-        'title': 'Simple photo with my iPhone 16 HD8k octa-camera.',
-        'user': {
-            'name': 'Maria Bohorquez',
-            'picture': 'https://picsum.photos/id/1027/50/50'
-        },
-        'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
-        'photo': 'https://picsum.photos/id/84/500/500'
-    },
-    {
-        'name': 'Natural web',
-        'user': {
-            'name':'Hasbull',
-            'picture': 'https://picsum.photos/id/1023/50/50'
-        },
-        'timestamp': datetime.now().strftime('%b %dth, %Y - %H:%M hrs'),
-        'photo': 'https://picsum.photos/id/784/500/500'
-    },
-    
-]
+# Models
+from posts.models import Post
 
-@login_required
-def list_post(request):
-    """List existing posts"""
-    #Primero el request, luego el template el otro argumento que recibe es un dict
-    return render(request, "posts/feed.html", {'posts': posts})
+# Form
+from posts.forms import PostForm
+
+class PostsFeedView(LoginRequiredMixin, ListView):
+    """Return all published posts"""
+    
+    template_name = 'posts/feed.html'
+    model = Post
+    ordering = ('-created',)
+    paginate_by = 2
+    # Nombre del query en el template o sea en el contexto
+    context_object_name = 'posts'
+
+class PostDetailView(LoginRequiredMixin, DetailView):
+    """Return post detail"""
+    
+    template_name = 'posts/detail.html'
+    queryset= Post.objects.all()
+    context_object_name = 'post'
+
+
+class CreatePostView(LoginRequiredMixin, CreateView):
+    """ Create a new post"""
+    
+    template_name = 'posts/new.html'
+    form_class = PostForm
+    ## "reverse_lazy" lo que hace es evaluar la url hasta que la necesitemos
+    success_url = reverse_lazy('posts:feed')
+    
+    def get_context_data(self, **kwargs):
+        
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['profile'] = self.request.user.profile
+        return context
+        
+
+# @login_required
+# def create_post(request):
+#     """Create new post view"""
+#     if request.method == 'POST':
+#         ## Enviamos el formulario los datos del request, como hay una foto se envia tambien el .FILES
+#         form = PostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect ('posts:feed')
+#     else:
+#         form = PostForm()
+    
+#     return render(
+#         request=request,
+#         template_name='posts/new.html',
+#         context={
+#             'form': form,
+#             'user': request.user,
+#             'profile': request.user.profile
+#         }
+#     )
+
+
